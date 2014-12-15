@@ -1,0 +1,96 @@
+#container {
+	padding: 20px 0 0 0;
+}
+
+.table-padded td {
+	padding: 5px;
+}
+
+.highlight {
+	padding: 9px 14px;
+	margin-bottom: 14px;
+	background-color: #f7f7f9;
+	border: 1px solid #e1e1e8;
+	border-radius: 4px;
+}
+
+body {
+	background: #fff url('../images/bg_image.jpg') no-repeat center top;
+	background-size: cover;
+}
+
+#main h1 {
+	color: rgb(57, 59, 46);	
+	display: inline-block;
+	font-weight: bold;
+}
+
+#main-left-bar {
+	min-width: 130px;
+	max-width: 200px;
+}
+
+.logo img {
+	width: 120%;
+	margin-left: -27%;
+}
+
+.logo {
+	display: inline-block;
+	width: 100%;
+}
+
+.transparent-box {
+	background: rgba(255,255,255,0.85);
+	padding: 8px 16px;
+	border-radius: 4px;
+}
+
+.label-primary, .btn-primary {
+	background-color: #49550b;
+	border-color: #778726;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+	background-color: #778726;
+	border-color: #778726;
+}
+
+a {
+	color: #778726;
+	text-decoration: none;
+}
+
+a:hover,  {
+	color: #49550b;
+}
+
+#main .nav-pills > li > a {
+	background: #88a205;
+	color: white;
+	margin-bottom: 3px;
+}
+
+#main .nav-pills > li.active > a {
+	background: #49550b;
+	color: white;
+	margin-bottom: 3px;
+}
+
+#main .nav-pills > li > a:hover {
+	background: #778726;
+}
+
+.table thead .labels {
+	background: #49550b;
+}
+
+.alert-success {
+ color: white;
+ background-color: #778726;
+ border-color: #49550b;
+ text-shadow: 1px 1px 0px #6b7f05;
+}
+
+.left-menu {
+}
