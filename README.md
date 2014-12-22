@@ -1,2 +1,0 @@
-TableEditor-Plugin-WestBranch
-=============================
