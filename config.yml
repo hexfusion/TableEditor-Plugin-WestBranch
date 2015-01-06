@@ -4,7 +4,7 @@ TableEditor:
   primary_key_delimiter: "_"
   page_sizes: [10, 20, 50, 100]
   full: [admin]
-  #menu_classes: [Product, Order, Message, User]
+  menu_classes: [Product, Order, Message, User]
   active_users_interval: 0
   plugins: [ Interchange6, WestBranch ]
   classes:
@@ -19,7 +19,7 @@ TableEditor:
         );
     Message:
      # restricted: [admin]
-      grid_columns: [messages_id, title, message_types_id, message_type, author_users_id, created, last_modified]
+      grid_columns: [messages_id, title, message_types_id, message_type, approved, author_users_id, created, last_modified]
       columns:
         messages_id:
           label: Id
