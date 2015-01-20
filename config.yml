@@ -1,2 +1,13 @@
 TableEditor:
   full: [admin]
+  classes:
+    Product:
+      columns:
+        description:
+          prefill: |
+            <h3>Bold Headline</h3>
+            <p class="lead">Blog lead here</p>
+            <p>Paragraph #1.</p>
+            <p>Paragraph #2.</p>
+            <p>Paragraph #3.</p>
+            <p>Paragraph #4.</p>
