@@ -115,17 +115,17 @@
 				<nav ui-nav="" class="navi clearfix">
 					<ul class="nav">
 						
-						<li class="active">
+						<li  ng-class="{active: block.active}"ng-repeat="block in menu">
 							<a href="" class="auto">      
 		                  <span class="pull-right text-muted">
 		                    <i class="fa fa-fw fa-angle-right text"></i>
 		                    <i class="fa fa-fw fa-angle-down text-active"></i>
 		                  </span>
 		                  <i class="glyphicon glyphicon-list"></i>
-		                  <span>Tables</span>
+		                  <span>{{block.title}}</span>
 		                </a>
 							<ul class="nav nav-sub dk">
-								<li ng-repeat="link in menu" data-active-link="">
+								<li ng-repeat="link in block.items" data-active-link="">
 									<a href="{{link.url}}"><span>{{link.name}}</span></a>
 								</li>
 							</ul>
