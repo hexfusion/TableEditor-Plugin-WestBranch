@@ -1,0 +1,459 @@
+<div ng-if="(!create && (!data.columns || !item.class)) || (create && !data.columns)" ng-include="'views/loading.html'" class="loading-box"></div>
+
+<div ng-if="!(!create && (!data.columns || !item.class)) || (create && !data.columns)">
+	<!-- Page heading -->
+	<div class="page-head" ng-init="view='form'" checkUser>
+		<!-- Page heading -->
+		<h1 ng-if="create" class="title">{{ title }}</h1>
+		<h1 ng-if="!create" class="title">
+			<a href="#{{data.class}}/list" class="grey super-title">{{ data.class_label }}</a> {{ item.title }}
+		</h1>
+		<!-- Breadcrumb -->
+	
+		<div class="clearfix"></div>
+	
+	</div>
+	<!-- Page heading ends -->
+	
+	<!-- Matter -->
+	<div class="matter" id="details">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="alert-box span12"></div>
+			</div>
+			<ul ng-show="data.relations" class="nav nav-pills" ng-if="!create">
+				<li class="active"><a>General</a></li>
+				<li class="sub-menu-item" ng-repeat="link in data.relations">
+					<!-- Has many or Many to many -->
+					<a ng-if="link.type == 'has_many' || link.type == 'many_to_many' || link.type == 'might_have'" 
+						class="sub-menu-link mn" href="#/{{item.class}}/{{item.id}}/{{link.name}}/{{link.type}}">{{link.label}}</a>
+					
+					<!-- Belongs to -->
+					<a ng-if="link.type == 'belongs_to' && link.foreign_id" 
+						class="sub-menu-link bt" href="#/{{link.class_name}}/edit/{{link.foreign_id}}">{{link.label}}</a>
+
+				</li>
+			</ul>
+
+			<div class="row-fluid">
+				<h2>Images</h2>
+				<div class="product-images">
+					<span ng-repeat="img in media.rows" class="item" id="media-{{img.id}}">
+						<span class="remove" ng-click="removeMedia(img)">X</span>
+						<img ng-src="api/{{media_class.class}}/file/image/{{img.columns.file}}"/>
+					</span>
+					<span class="transparent-box add">
+						Add image <br />
+							<input value="bla" type="file" accept="image/*" ng-file-select="onImageSelect($files)" multiple=1/>
+					</span>
+				</div>
+			</div>
+	
+			<div class="row-fluid">
+				<div class="span12">
+					<form name="form" method="post" enctype="multipart/form-data" class="form-horizontal form" novalidate>
+						<fieldset>
+	
+	
+							<!-- Form Name -->
+							<div class="messages"></div>
+	
+	
+
+							<!-- active -->
+							<div ng-if="
+								data.columns_info['active'].hidden == 0 || (
+									data.columns_info['active'].hidden != 1 && (
+										!(
+											data.columns_info['active'].is_auto_increment || 
+											(data.columns_info['active'].readonly && !data.columns_info['active'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['active'].label"></label><span ng-show="data.columns_info['active'].required">*</span>
+										<div ng-bind="data.columns_info['active'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['active'].display_type+'.html'" ng-init="column = data.columns_info['active']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- canonical_sku -->
+							<div ng-if="
+								data.columns_info['canonical_sku'].hidden == 0 || (
+									data.columns_info['canonical_sku'].hidden != 1 && (
+										!(
+											data.columns_info['canonical_sku'].is_auto_increment || 
+											(data.columns_info['canonical_sku'].readonly && !data.columns_info['canonical_sku'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['canonical_sku'].label"></label><span ng-show="data.columns_info['canonical_sku'].required">*</span>
+										<div ng-bind="data.columns_info['canonical_sku'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['canonical_sku'].display_type+'.html'" ng-init="column = data.columns_info['canonical_sku']"></div>
+										</ng-form>
+									</div>		
+								</div>
+								<a class="btn btn-primary ng-binding" ng-click="add_variant(data.id)"><i class="glyphicon glyphicon-plus"></i> Add new Product Review</a>
+							</div>
+
+
+							<!-- created -->
+							<div ng-if="
+								data.columns_info['created'].hidden == 0 || (
+									data.columns_info['created'].hidden != 1 && (
+										!(
+											data.columns_info['created'].is_auto_increment || 
+											(data.columns_info['created'].readonly && !data.columns_info['created'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['created'].label"></label><span ng-show="data.columns_info['created'].required">*</span>
+										<div ng-bind="data.columns_info['created'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['created'].display_type+'.html'" ng-init="column = data.columns_info['created']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- description -->
+							<div ng-if="
+								data.columns_info['description'].hidden == 0 || (
+									data.columns_info['description'].hidden != 1 && (
+										!(
+											data.columns_info['description'].is_auto_increment || 
+											(data.columns_info['description'].readonly && !data.columns_info['description'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['description'].label"></label><span ng-show="data.columns_info['description'].required">*</span>
+										<div ng-bind="data.columns_info['description'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['description'].display_type+'.html'" ng-init="column = data.columns_info['description']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- gtin -->
+							<div ng-if="
+								data.columns_info['gtin'].hidden == 0 || (
+									data.columns_info['gtin'].hidden != 1 && (
+										!(
+											data.columns_info['gtin'].is_auto_increment || 
+											(data.columns_info['gtin'].readonly && !data.columns_info['gtin'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['gtin'].label"></label><span ng-show="data.columns_info['gtin'].required">*</span>
+										<div ng-bind="data.columns_info['gtin'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['gtin'].display_type+'.html'" ng-init="column = data.columns_info['gtin']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- inventory_exempt -->
+							<div ng-if="
+								data.columns_info['inventory_exempt'].hidden == 0 || (
+									data.columns_info['inventory_exempt'].hidden != 1 && (
+										!(
+											data.columns_info['inventory_exempt'].is_auto_increment || 
+											(data.columns_info['inventory_exempt'].readonly && !data.columns_info['inventory_exempt'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['inventory_exempt'].label"></label><span ng-show="data.columns_info['inventory_exempt'].required">*</span>
+										<div ng-bind="data.columns_info['inventory_exempt'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['inventory_exempt'].display_type+'.html'" ng-init="column = data.columns_info['inventory_exempt']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- last_modified -->
+							<div ng-if="
+								data.columns_info['last_modified'].hidden == 0 || (
+									data.columns_info['last_modified'].hidden != 1 && (
+										!(
+											data.columns_info['last_modified'].is_auto_increment || 
+											(data.columns_info['last_modified'].readonly && !data.columns_info['last_modified'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['last_modified'].label"></label><span ng-show="data.columns_info['last_modified'].required">*</span>
+										<div ng-bind="data.columns_info['last_modified'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['last_modified'].display_type+'.html'" ng-init="column = data.columns_info['last_modified']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- name -->
+							<div ng-if="
+								data.columns_info['name'].hidden == 0 || (
+									data.columns_info['name'].hidden != 1 && (
+										!(
+											data.columns_info['name'].is_auto_increment || 
+											(data.columns_info['name'].readonly && !data.columns_info['name'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['name'].label"></label><span ng-show="data.columns_info['name'].required">*</span>
+										<div ng-bind="data.columns_info['name'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['name'].display_type+'.html'" ng-init="column = data.columns_info['name']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- price -->
+							<div ng-if="
+								data.columns_info['price'].hidden == 0 || (
+									data.columns_info['price'].hidden != 1 && (
+										!(
+											data.columns_info['price'].is_auto_increment || 
+											(data.columns_info['price'].readonly && !data.columns_info['price'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['price'].label"></label><span ng-show="data.columns_info['price'].required">*</span>
+										<div ng-bind="data.columns_info['price'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['price'].display_type+'.html'" ng-init="column = data.columns_info['price']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- priority -->
+							<div ng-if="
+								data.columns_info['priority'].hidden == 0 || (
+									data.columns_info['priority'].hidden != 1 && (
+										!(
+											data.columns_info['priority'].is_auto_increment || 
+											(data.columns_info['priority'].readonly && !data.columns_info['priority'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['priority'].label"></label><span ng-show="data.columns_info['priority'].required">*</span>
+										<div ng-bind="data.columns_info['priority'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['priority'].display_type+'.html'" ng-init="column = data.columns_info['priority']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- short_description -->
+							<div ng-if="
+								data.columns_info['short_description'].hidden == 0 || (
+									data.columns_info['short_description'].hidden != 1 && (
+										!(
+											data.columns_info['short_description'].is_auto_increment || 
+											(data.columns_info['short_description'].readonly && !data.columns_info['short_description'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['short_description'].label"></label><span ng-show="data.columns_info['short_description'].required">*</span>
+										<div ng-bind="data.columns_info['short_description'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['short_description'].display_type+'.html'" ng-init="column = data.columns_info['short_description']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- sku -->
+							<div ng-if="
+								data.columns_info['sku'].hidden == 0 || (
+									data.columns_info['sku'].hidden != 1 && (
+										!(
+											data.columns_info['sku'].is_auto_increment || 
+											(data.columns_info['sku'].readonly && !data.columns_info['sku'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['sku'].label"></label><span ng-show="data.columns_info['sku'].required">*</span>
+										<div ng-bind="data.columns_info['sku'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['sku'].display_type+'.html'" ng-init="column = data.columns_info['sku']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- uri -->
+							<div ng-if="
+								data.columns_info['uri'].hidden == 0 || (
+									data.columns_info['uri'].hidden != 1 && (
+										!(
+											data.columns_info['uri'].is_auto_increment || 
+											(data.columns_info['uri'].readonly && !data.columns_info['uri'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['uri'].label"></label><span ng-show="data.columns_info['uri'].required">*</span>
+										<div ng-bind="data.columns_info['uri'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['uri'].display_type+'.html'" ng-init="column = data.columns_info['uri']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+
+							<!-- weight -->
+							<div ng-if="
+								data.columns_info['weight'].hidden == 0 || (
+									data.columns_info['weight'].hidden != 1 && (
+										!(
+											data.columns_info['weight'].is_auto_increment || 
+											(data.columns_info['weight'].readonly && !data.columns_info['weight'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['weight'].label"></label><span ng-show="data.columns_info['weight'].required">*</span>
+										<div ng-bind="data.columns_info['weight'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['weight'].display_type+'.html'" ng-init="column = data.columns_info['weight']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+	
+							<!-- manufacturer_sku -->
+							<div ng-if="
+								data.columns_info['manufacturer_sku'].hidden == 0 || (
+									data.columns_info['manufacturer_sku'].hidden != 1 && (
+										!(
+											data.columns_info['manufacturer_sku'].is_auto_increment || 
+											(data.columns_info['manufacturer_sku'].readonly && !data.columns_info['manufacturer_sku'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['manufacturer_sku'].label"></label><span ng-show="data.columns_info['manufacturer_sku'].required">*</span>
+										<div ng-bind="data.columns_info['manufacturer_sku'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['manufacturer_sku'].display_type+'.html'" ng-init="column = data.columns_info['manufacturer_sku']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+	
+							<!-- cost -->
+							<div ng-if="
+								data.columns_info['cost'].hidden == 0 || (
+									data.columns_info['cost'].hidden != 1 && (
+										!(
+											data.columns_info['cost'].is_auto_increment || 
+											(data.columns_info['cost'].readonly && !data.columns_info['cost'].primary_key) && 
+											create
+										)
+									)
+								)
+								">
+								<div class="form-group form-field">
+									<div class="controls control-group" ng-class="{'has-error': validationScope.data.column.$invalid && form.submitted}">
+										<label class="control-label " ng-bind="data.columns_info['cost'].label"></label><span ng-show="data.columns_info['cost'].required">*</span>
+										<div ng-bind="data.columns_info['cost'].description"></div>
+										<ng-form name="validationScope">
+										<div ng-include="'views/column/'+data.columns_info['cost'].display_type+'.html'" ng-init="column = data.columns_info['cost']"></div>
+										</ng-form>
+									</div>		
+								</div>
+							</div>
+
+	
+							<div class="form-group">
+								<button ng-click="save()" class="btn btn-success pull-right">Save</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+</div>
